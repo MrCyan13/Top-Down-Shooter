@@ -4,15 +4,43 @@ using UnityEngine;
 
 public class MyScrollBackground : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    //adapun Transform terdiri 2 buah gameobject yang berfungsi sebagai background
+    public Transform[] background;
+    public float speed;
 
-    // Update is called once per frame
+    [Header("Pos Y Diatas Kamera")]
+    public float topPosY;
+
+    [Header("Pos Y Dibawah Kamera")]
+    public float bottomPosY;
+
+
     void Update()
     {
-        
+        positionUpdate();
+        checkPosition();
+    }
+
+
+    //check posisi, kalau udah terlalu bawah, pindahin keatas
+    private void checkPosition()
+    {
+        if (background[0].transform.position.y < bottomPosY)
+        {
+            background[0].transform.position = new Vector2(0, topPosY);
+        }
+        if (background[1].transform.position.y < bottomPosY)
+        {
+            background[1].transform.position = new Vector2(0, topPosY);
+        }
+    }
+
+
+    //menggeser background kebawah
+    private void positionUpdate()
+    {
+        var movement = Time.deltaTime * speed;
+        background[0].transform.position = new Vector2 (0, background[0].position.y - movement);
+        background[1].transform.position = new Vector2(0, background[1].position.y - movement);
     }
 }
